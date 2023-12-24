@@ -75,7 +75,7 @@ class Heart
   
     //////////////////////////////////////////////////////////////////////
 
-    render(x, y) 
+    render(x = this.position.x, y = this.position.y) 
     {
         stroke('white');
         strokeWeight(2);

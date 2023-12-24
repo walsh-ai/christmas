@@ -10,19 +10,16 @@ class FallingHeart extends Heart
 {
     constructor()
     {
-        let seedx = floor(random(width) * 1.5);
-        let seedy = floor(random(height) * 1.5);
+        let seedx = floor(random(width) * 1.25);
+        let seedy = floor(random(height) * 1.25);
 
-        let dx = cos(random(-5, 5));
-        let dy = Math.random() * 5 + 0.5;
-
-        let radius = random(1, 3);
+        let radius = random(1, 4);
         let pulseRadius = random(5, 10);
 
         super(seedx, seedy, radius, pulseRadius, true);
-
-        this.acceleration = createVector(0, 0);
-        this.velocity     = createVector(dx, dy);
+        
+        this.setRandomVelocity();
+        this.acceleration = createVector(0, 0.001);
         this.position     = createVector(seedx, seedy);
 
         super.oneCycle();
@@ -39,26 +36,29 @@ class FallingHeart extends Heart
 
         if ( this.position.y > height ) 
         {
-            this.position.y *= -1;
+            this.position.y = -10;
+            this.setRandomVelocity();
         }
 
-        if ( this.position.x > width ) 
+        if ( this.position.x > (width + this.radius) ) 
         {
-            this.velocity.x *= -1;
+            this.velocity.x = - this.velocity.x;
         }
         
-        if (this.position.x < -10) {
+        if ( this.position.x < (- this.radius) ) 
+        {
             this.position.x = width;
-          }
-        
-        this.acceleration.mult(0);
+        }
     }
 
     //////////////////////////////////////////////////////////////////////
 
-    render()
+    setRandomVelocity()
     {
-        super.render(this.position.x, this.position.y);
+        let dx = cos(random(-5, 5));
+        let dy = Math.random() * 5 + 0.5;
+
+        this.velocity = createVector(dx, dy);
     }
 }
 
