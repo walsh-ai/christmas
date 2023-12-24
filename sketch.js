@@ -7,20 +7,35 @@
 //////////////////////////////////////////////////////////////////////
 
 var canvas;
+var hearts = [];
 var bubbles = [];
-var numberOfBubbles = 5;
-var backgroundColour = 175;
+var fallingHearts = [];
+
+var a = 0.0;
+var numberOfHearts = 0;
+var numberOfBubbles = 0;
+var backgroundColour = 0;
+var numberOfFallingHearts = 100;
 
 //////////////////////////////////////////////////////////////////////
 
 function setup()
 {
     canvas = createCanvas(windowWidth, windowHeight);
+
     canvas.position(0, 0);
-    canvas.style('z-index', '-1');
+    canvas.style('z-index', '-1');gh
+
+    stroke(255);
+    strokeWeight(2);
+    fill(150, 0, 100);
+    background(0);
 
     background(backgroundColour);
+    createHearts(numberOfHearts);
     createBubbles(numberOfBubbles);
+
+    createHeartRain();
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -35,12 +50,20 @@ function windowResized()
 
 function draw()
 {
+    background(0);
+
     if ( mouseIsPressed )
     {
         line(pmouseX, pmouseY, mouseX, mouseY);
     }
 
     bubbles.forEach(bubble => bubble.update());
+
+    for ( let i = 0; i < fallingHearts.length; i++ ) 
+    {
+        fallingHearts[i].update();
+        fallingHearts[i].render();
+    }
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -54,6 +77,32 @@ function createBubbles(num)
         let y = random(0, height);
 
         bubbles.push(new bubble(x, y, r));
+    }
+}
+
+//////////////////////////////////////////////////////////////////////
+
+function createHearts(num)
+{
+    for ( var i = 0; i < num; i++ )
+    {
+        let x = 100;
+        let y = 100;
+        let heartSize = 10;
+
+        hearts.push(new heart(x, y, heartSize));
+    }
+
+    hearts.forEach(heart => heart.show());
+}
+
+//////////////////////////////////////////////////////////////////////
+
+function createHeartRain()
+{
+    for ( let i = 0; i < numberOfFallingHearts; i++ )
+    {
+        fallingHearts.push(new FallingHeart());
     }
 }
 
