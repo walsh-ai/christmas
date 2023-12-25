@@ -22,14 +22,6 @@ var numberOfFallingHearts = 100;
 
 //////////////////////////////////////////////////////////////////////
 
-window.addEventListener('click', 
-    function () 
-    {
-        hearts.push(getNewHeartOfWindowType(mouseX, mouseY, random(2, 5), random(10, 15)));
-    });
-
-//////////////////////////////////////////////////////////////////////
-
 function windowResized()
 {
     console.log("EVENT on windoowResized() | resized p5 canvas.");
@@ -76,6 +68,10 @@ function setup()
     createBubbles(numberOfBubbles);
 
     createHeartRain();
+
+    canvas.mouseClicked(() => {
+        hearts.push(getNewHeartOfWindowType(mouseX, mouseY, random(2, 5), random(10, 15)));
+    });
 }
 
 //////////////////////////////////////////////////////////////////////
