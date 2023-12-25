@@ -46,7 +46,7 @@ class CHeartRender
         x = this.position.x, 
         y = this.position.y) 
     {
-        stroke('white');
+        stroke('black');
         strokeWeight(2);
         strokeJoin(ROUND);
 
