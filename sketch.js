@@ -12,13 +12,50 @@ var bubbles = [];
 var fallingHearts = [];
 
 var fallingHeartType = EHeartType.HeartType_B;
-var drawingHeartType = EHeartType.HeartType_B;
+var beatingHeartType = EHeartType.HeartType_B;
 
 var a = 0.0;
 var numberOfHearts = 0;
 var numberOfBubbles = 0;
 var backgroundColour = 0;
 var numberOfFallingHearts = 100;
+
+//////////////////////////////////////////////////////////////////////
+
+window.addEventListener('click', 
+    function () 
+    {
+        hearts.push(getNewHeartOfWindowType(mouseX, mouseY, random(2, 5), random(10, 15)));
+    });
+
+//////////////////////////////////////////////////////////////////////
+
+function windowResized()
+{
+    console.log("EVENT on windoowResized() | resized p5 canvas.");
+    resizeCanvas(windowWidth, windowHeight);
+}
+
+//////////////////////////////////////////////////////////////////////
+
+function getNewHeartOfWindowType(xPos, yPos, radius, pulseRadius)
+{
+    switch ( beatingHeartType )
+    {
+        case EHeartType.HeartType_A:
+            return new CHeartA(xPos, yPos, radius, pulseRadius);
+        case EHeartType.HeartType_B:
+            return new CHeartB(xPos, yPos, radius, pulseRadius);
+        case EHeartType.HeartType_C:
+            return new CHeartC(xPos, yPos, radius, pulseRadius);
+        case EHeartType.HeartType_D:
+            return new CHeartD(xPos, yPos, radius, pulseRadius);
+        case EHeartType.HeartType_E:
+            return new CHeartE(xPos, yPos, radius, pulseRadius);
+        default:
+            return new CHeartB(xPos, yPos, radius, pulseRadius);
+    }
+}
 
 //////////////////////////////////////////////////////////////////////
 
@@ -43,14 +80,6 @@ function setup()
 
 //////////////////////////////////////////////////////////////////////
 
-function windowResized()
-{
-    console.log("EVENT on windoowResized() | resized p5 canvas.");
-    resizeCanvas(windowWidth, windowHeight);
-}
-
-//////////////////////////////////////////////////////////////////////
-
 function draw()
 {
     background(0);
@@ -67,6 +96,15 @@ function draw()
         fallingHearts[i].update();
         fallingHearts[i].render();
     }
+
+    for ( let heart of hearts ) 
+    {
+        heart.computeOutlineUpdateStep();
+        heart.render();
+    }
+
+    noStroke();
+    fill(255);
 }
 
 //////////////////////////////////////////////////////////////////////
