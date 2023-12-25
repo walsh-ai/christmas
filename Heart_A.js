@@ -61,7 +61,7 @@ class CHeartA extends CHeartRender
     {
         const xy = this.computeVertex();
 
-        this.angle += 0.05;
+        this.angle += 0.1;
         this.radius += 0.005;
 
         if ( this.beat )
@@ -71,7 +71,6 @@ class CHeartA extends CHeartRender
 
         if ( this.outline.length < 500 )
         {
-            // this.outline.pop()
             this.outline.push(xy);
         }
     }

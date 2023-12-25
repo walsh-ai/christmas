@@ -64,7 +64,7 @@ class CHeartD extends CHeartRender
 
         if ( this.beat )
         {
-            this.pulse = map(cos(this.angle), 0, this.pulseRadius, 0.5, -1);
+            this.pulse = map(cos(this.angle), 0, this.pulseRadius, 0.5, -2);
         }
 
         if ( this.outline.length < 500 )
