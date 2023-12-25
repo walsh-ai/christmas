@@ -70,7 +70,7 @@ function setup()
     createHeartRain();
 
     canvas.mouseClicked(() => {
-        hearts.push(getNewHeartOfWindowType(mouseX, mouseY, random(2, 5), random(10, 15)));
+        hearts.push(getNewHeartOfWindowType(mouseX, mouseY, random(1, 3), random(10, 15)));
     });
 }
 
