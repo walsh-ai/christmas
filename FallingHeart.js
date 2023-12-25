@@ -9,7 +9,7 @@
 
 class CFallingHeart
 {
-    constructor()
+    constructor(heartType)
     {
         let seedx = floor(random(width) * 1.25);
         let seedy = floor(random(height) * 1.25);
@@ -21,8 +21,41 @@ class CFallingHeart
         this.acceleration = createVector(0, 0.001);
         this.position     = createVector(seedx, seedy);
 
-        this.heart = new CHeartE(seedx, seedy, radius, pulseRadius, true);
+
+        switch (heartType)
+        {
+            case EHeartType.HeartType_A:
+                this.heart = new CHeartA(seedx, seedy, radius, pulseRadius, true);
+                break;
+            case EHeartType.HeartType_B:
+                this.heart = new CHeartB(seedx, seedy, radius, pulseRadius, true);
+                break;
+            case EHeartType.HeartType_C:
+                this.heart = new CHeartC(seedx, seedy, radius, pulseRadius, true);
+                break;
+            case EHeartType.HeartType_D:
+                this.heart = new CHeartD(seedx, seedy, radius, pulseRadius, true);
+                break;
+            case EHeartType.HeartType_E:
+                this.heart = new CHeartE(seedx, seedy, radius, pulseRadius, true);
+                break;
+            default:
+                this.heart = new CHeartA(seedx, seedy, radius, pulseRadius, true);
+                break;
+        }
+
         this.heart.computeFullOutline();
+    }
+
+    //////////////////////////////////////////////////////////////////////
+
+    initialiseHeart(heartType)
+    {
+        switch (heartType)
+        {
+            case EHeartType.HeartType_A:
+                this.heart = new CHeartA(seed)
+        }
     }
 
     //////////////////////////////////////////////////////////////////////
