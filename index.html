@@ -2,18 +2,11 @@
 <html lang="en">
 
 <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.js"></script>
 
-    <link rel="stylesheet" type="text/css" href="style.css">
-
-    <meta charset="utf-8" />
-</head>
-
-<body>
-    <main>
-    </main>
-
-    
     <script src="HeartType.js"></script>
     <script src="Heart.js"></script>
     <script src="FallingHeart.js"></script>
@@ -26,6 +19,35 @@
     <script src="Heart_E.js"></script>
     <script src="sketch.js"></script>
 
+    <link rel="stylesheet" type="text/css" href="style.css">
+
+    <title><3</title>
+
+    <style>
+       
+  </style>
+</head>
+
+<body>
+    <main>
+        <div>
+            <p class = "info">Raining Hearts: </p>
+            <button class = "info" onClick = "setFallingHearts(EHeartType.HeartType_A);">Eq. A</button>
+            <button class = "info" onClick = "setFallingHearts(EHeartType.HeartType_B);">Eq. B</button>
+            <button class = "info" onClick = "setFallingHearts(EHeartType.HeartType_C);">Eq. C</button>
+            <button class = "info" onClick = "setFallingHearts(EHeartType.HeartType_D);">Eq. D</button>
+            <button class = "info" onClick = "setFallingHearts(EHeartType.HeartType_E);">Eq. E</button>
+        </div>
+        <br />
+        <div>
+            <p class = "info">Beating Hearts: </p>
+            <button class = "info">Eq. A</button>
+            <button class = "info">Eq. B</button>
+            <button class = "info">Eq. C</button>
+            <button class = "info">Eq. D</button>
+            <button class = "info">Eq. E</button>
+        </div>
+    </main>
 </body>
 
 </html>

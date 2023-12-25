@@ -11,6 +11,9 @@ var hearts = [];
 var bubbles = [];
 var fallingHearts = [];
 
+var fallingHeartType = EHeartType.HeartType_B;
+var drawingHeartType = EHeartType.HeartType_B;
+
 var a = 0.0;
 var numberOfHearts = 0;
 var numberOfBubbles = 0;
@@ -100,10 +103,19 @@ function createHearts(num)
 
 function createHeartRain()
 {
+    fallingHearts = [];
     for ( let i = 0; i < numberOfFallingHearts; i++ )
     {
-        fallingHearts.push(new CFallingHeart(EHeartType.HeartType_E));
+        fallingHearts.push(new CFallingHeart(fallingHeartType));
     }
+}
+
+//////////////////////////////////////////////////////////////////////
+
+function setFallingHearts(heartType)
+{
+    fallingHeartType = heartType;
+    createHeartRain();
 }
 
 //////////////////////////////////////////////////////////////////////
