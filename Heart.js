@@ -7,72 +7,39 @@
 
 //////////////////////////////////////////////////////////////////////
 
-class Heart 
+class CHeartRender
 {
     constructor(
         seedx = 0, 
         seedy = 0, 
         radius = 10,
         pulseRadius = 5, 
-        falling = false) 
+        falling = false,
+        heartType = EHeartType.HeartType_A) 
     {
         this.radius = radius;
         this.falling = falling;
+        this.heartType = heartType;
         this.pulseRadius = pulseRadius;
-
+        
         this.position = createVector(seedx, seedy);
 
         this.angle = 0;
         this.pulse = 1;
         this.beat = true;
 
+        if ( this.falling )
+        {
+            this.opacity = Math.random() * (0.7 - 0.4) + 0.4;
+        } 
+        else 
+        {
+            this.opacity = 1;
+        }
+
         this.outline = [];
     }
 
-    //////////////////////////////////////////////////////////////////////
-  
-    oneCycle() 
-    {
-      this.radius += 0.005;
-
-      for ( let a = 0; a < TWO_PI; a += 0.1 ) 
-      {
-        let x = this.radius * 16 * pow(sin(a), 3);
-        let y = -this.radius * (13 * cos(a) - 6 * cos(2 * a) - 2 * cos(3 * a) - cos(4 * a));
-
-        if (this.beat)
-        {
-          this.pulse = map(cos(a), 0, this.pulseRadius, 0.5, -1);
-        }
-  
-        if (this.outline.length < 500) 
-        {
-          this.outline.push(createVector(x, y));
-        }
-      }
-    }
-    
-    //////////////////////////////////////////////////////////////////////
-  
-    update()
-    {
-        let x = this.radius * 16 * pow(sin(this.angle), 3);
-        let y = -this.radius * (13 * cos(this.angle) - 6 * cos(2 * this.angle) - 2 * cos(3 * this.angle) - cos(4 * this.angle));
-
-        this.angle += 0.05;
-        this.radius += 0.005;
-
-        if (this.beat)
-        {
-            this.pulse = map(cos(this.angle), 0, this.pulseRadius, 0.5, -1);
-        }
-  
-        if (this.outline.length < 500) 
-        {
-            this.outline.push(createVector(x, y));
-        }
-    }
-  
     //////////////////////////////////////////////////////////////////////
 
     render(x = this.position.x, y = this.position.y) 
@@ -81,138 +48,241 @@ class Heart
         strokeWeight(2);
         strokeJoin(ROUND);
 
-        let opacity = 1;
         if ( this.falling )  
         {
             this.position.x = x;
             this.position.y = y;
-            opacity = 0.6;
 
             noStroke();
         }
 
         push();
         translate(this.position.x, this.position.y);
-        fill(255, 101, 186, opacity * 255);
+        fill(255, 101, 186, this.opacity * 255);
 
         beginShape();
+
         for ( let v of this.outline ) 
         {
             vertex(this.pulse * v.x, this.pulse * v.y);
         }
+
         endShape();
 
         pop();
     }
 }
 
+/** 
+*       EQUATIONS ARE REPEATED BETWEEN COORDINATE AND OUTLINE METHODS FOR RENDERING SPEED
+**/
+
 //////////////////////////////////////////////////////////////////////
 
-Heart.prototype.ComputeHeartOutline_a = function()
+CHeartRender.prototype.ComputeHeartCoordinate_a = function(angle)
 {
-    let heart = [];
-    let a = 0.0;
+    const magnitude = this.radius / 20;
 
-    for ( let a = 0.0; a < TWO_PI; a += 0.01 )
-    {
-        const r = height / 20;
-        const x = (r * (1 - cos(a)) * cos(a));
-        const y = -(r * sin(a) * (1 - cos(a)));
+    const a = (magnitude * (1 - cos(angle)) * cos(angle));
+    const b = -(magnitude * sin(angle) * (1 - cos(angle)));
 
-        // Rotate counter-clockwise by 90 degrees (it took me ages to figure this out)
-        const theta = - PI / 2;
-        const u = ((x * cos(theta)) - (y * sin(theta)));
-        const v = ((x * sin(theta)) + (y * cos(theta)));
+    // Rotate counter-clockwise by 90 degrees (it took me ages to find this)
+    const theta = - PI / 2;
+    const c = ((a * cos(theta)) - (b * sin(theta)));
+    const d = ((a * sin(theta)) + (b * cos(theta)));
 
-        heart.push(createVector(u, v));
-    }
-
-    return heart;  
+    return [ c, d ];
 }
 
 //////////////////////////////////////////////////////////////////////
 
-Heart.prototype.ComputeHeartOutline_b = function()
+CHeartRender.prototype.ComputeHeartOutline_a = function()
 {
-    let heart = [];
-    let a = 0.0;
-
-    for ( let a = 0.0; a < TWO_PI; a += 0.01 )
+    for ( let a = 0.0; a < TWO_PI; a += 0.1 )
     {
-        const r = height / 40;
-        const x = r * 16 * pow(sin(a), 3);
-        const y = -r * (13 * cos(a) - 5 * cos(2 * a) - 2 * cos(3 * a) - cos(4 * a));
+        const [ x, y ] = this.ComputeHeartCoordinate_a(a);
 
-        heart.push(createVector(x, y));
+        if ( this.beat ) 
+        {
+            this.pulse = map(cos(a), 0, this.pulseRadius, 0.5, -1);
+        }
+
+        if (this.outline.length < 500) 
+        {
+            this.outline.push(createVector(x, y));
+        }
+    } 
+}
+
+//////////////////////////////////////////////////////////////////////
+
+CHeartRender.prototype.ComputeHeartCoordinate_b = function(angle)
+{
+    return [this.radius * 16 * pow(sin(angle), 3),
+            -this.radius * (13 * cos(angle) - 6 * cos(2 * angle) - 2 * cos(3 * angle) - cos(4 * angle))];
+}
+
+//////////////////////////////////////////////////////////////////////
+
+CHeartRender.prototype.ComputeHeartOutline_b = function()
+{
+    for ( let a = 0.0; a < TWO_PI; a += 0.1 )
+    {
+        const [ x, y ] = this.ComputeHeartCoordinate_b(a);
+
+        if ( this.beat ) 
+        {
+            this.pulse = map(cos(a), 0, this.pulseRadius, 0.5, -1);
+        }
+
+        if ( this.outline.length < 500 )
+        {
+            this.outline.push(createVector(x, y));
+        }
     }
+}
+
+//////////////////////////////////////////////////////////////////////
+
+CHeartRender.prototype.ComputeHeartCoordinate_c = function(angle)
+{
+    r = 100;
+    const a = r * sin(angle) * cos(angle) * Math.log(Math.abs(angle));
+    const b = r * Math.pow(Math.pow(angle, 2), (3 / 20)) * Math.sqrt(cos(angle));
+
+    const x = r * sin(a) * cos(a) * Math.log(Math.abs(a));
+    const y = r * Math.pow(Math.pow(a, 2), (3 / 20)) * Math.sqrt(cos(a));
+
+    const theta = PI;
+    const c = ((a * cos(theta)) - (b * sin(theta)));
+    const d = ((a * sin(theta)) + (b * cos(theta)));
     
-    return heart;
+    return [ c, d ];
 }
 
 //////////////////////////////////////////////////////////////////////
 
-Heart.prototype.ComputeHeartOutline_c = function()
+CHeartRender.prototype.ComputeHeartOutline_c = function()
 {
-    let heart = [];
-
     for ( let a = -1; a < 1; a += 0.01 )
     {
-        const r = 100;
-        const x = r * sin(a) * cos(a) * Math.log(Math.abs(a));
-        const y = r * Math.pow(Math.pow(a, 2), (3 / 20)) * Math.sqrt(cos(a));
+        const [ x, y ] = this.ComputeHeartCoordinate_c(a);
 
-        const theta = PI;
-        const u = ((x * cos(theta)) - (y * sin(theta)));
-        const v = ((x * sin(theta)) + (y * cos(theta)));
+        if ( this.beat ) 
+        {
+            this.pulse = map(cos(a), 0, this.pulseRadius, 0.5, -1);
+        }
 
-        heart.push(createVector(u, v));
+        this.outline.push(createVector(x, y));    
     }
-
-    return heart;
 }
 
 //////////////////////////////////////////////////////////////////////
 
-Heart.prototype.ComputeHeartOutline_d = function()
+CHeartRender.prototype.ComputeHeartCoordinate_d = function(angle)
 {
-    let heart = [];
+    const magnitude = this.radius * 20;
+    const a = magnitude * cos(angle) * (sin(angle) * Math.sqrt(Math.abs(cos(angle)))) / (sin(angle) + (7/5)) - 2 * sin(angle) + 2;
+    const b = magnitude * sin(angle) * (sin(angle) * Math.sqrt(Math.abs(cos(angle)))) / (sin(angle) + (7/5)) - 2 * sin(angle) + 2;
 
-    for ( let a = 0; a < TWO_PI; a += 0.01 )
+    const theta = PI;
+    const c = ((a * cos(theta)) - (b * sin(theta)));
+    const d = ((a * sin(theta)) + (b * cos(theta)));
+
+    return [ c, d ];
+}
+
+//////////////////////////////////////////////////////////////////////
+
+CHeartRender.prototype.ComputeHeartOutline_d = function()
+{
+    for ( let a = 0; a < TWO_PI; a += 0.1 )
     {
-        const r = 50;
-        const x = r * cos(a) * (sin(a) * Math.sqrt(Math.abs(cos(a)))) / (sin(a) + (7/5)) - 2 * sin(a) + 2;
-        const y = r * sin(a) * (sin(a) * Math.sqrt(Math.abs(cos(a)))) / (sin(a) + (7/5)) - 2 * sin(a) + 2;
+        const [ x, y ] = this.ComputeHeartCoordinate_d(a);
 
-        const theta = PI;
-        const u = ((x * cos(theta)) - (y * sin(theta)));
-        const v = ((x * sin(theta)) + (y * cos(theta)));
+        if ( this.beat ) 
+        {
+            this.pulse = map(cos(a), 0, this.pulseRadius, 0.5, -1);
+        }
 
-        heart.push(createVector(u, v));
+        this.outline.push(createVector(x, y));
     }
-
-    return heart;
 }
 
 //////////////////////////////////////////////////////////////////////
 
-Heart.prototype.ComputeHeartOutline_e = function()
+CHeartRender.prototype.ComputeHeartCoordinate_e = function(angle)
 {
-    let heart = [];
+    const magnitude = this.radius * 10;
+    const a = -  Math.sqrt(2) * magnitude * Math.pow(sin(angle), 3);
+    const b = magnitude * (-Math.pow(cos(angle), 3) - Math.pow(cos(angle), 2) + (2 * cos(angle)));
+
+    const theta = PI;
+    const c = ((a * cos(theta)) - (b * sin(theta)));
+    const d = ((a * sin(theta)) + (b * cos(theta)));
+
+    return [ c, d ];
+}
+
+//////////////////////////////////////////////////////////////////////
+
+CHeartRender.prototype.ComputeHeartOutline_e = function()
+{
+    for ( let a = 0.0; a < TWO_PI; a += 0.1 )
+    {
+        const [ x, y ] = this.ComputeHeartCoordinate_e(a);
+
+        if ( this.beat ) 
+        {
+            this.pulse = map(cos(a), 0, this.pulseRadius, 0.5, -1);
+        }
+
+        this.outline.push(createVector(x, y));
+    }
+}
+
+//////////////////////////////////////////////////////////////////////
+
+CHeartRender.prototype.ComputeHeartOutline_f = function()
+{
+    let a = 0.0;
+
+    for ( let a = 0.0; a < TWO_PI; a += 0.1 )
+    {
+        const { x, y } = this.ComputeHeartCoordinate_b(a);
+
+        if ( this.beat ) 
+        {
+            this.pulse = map(cos(a), 0, this.pulseRadius, 0.5, -1);
+        }
+
+        if ( this.outline.length < 500 )
+        {
+            this.outline.push(createVector(x, y));
+        }
+    } 
+}
+
+//////////////////////////////////////////////////////////////////////
+
+CHeartRender.prototype.ComputeHeartOutline_g = function()
+{
+    let a = 0.0;
 
     for ( let a = 0.0; a < TWO_PI; a += 0.01 )
     {
-        const r = 50;
-        const x = -  Math.sqrt(2) * r * Math.pow(sin(a), 3);
-        const y = r * (-Math.pow(cos(a), 3) - Math.pow(cos(a), 2) + (2 * cos(a)));
+        const { x, y } = this.ComputeHeartCoordinate_b(a);
 
-        const theta = PI;
-        const u = ((x * cos(theta)) - (y * sin(theta)));
-        const v = ((x * sin(theta)) + (y * cos(theta)));
+        if ( this.beat ) 
+        {
+            this.pulse = map(cos(a), 0, this.pulseRadius, 0.5, -1);
+        }
 
-        heart.push(createVector(u, v));
-    }
-
-    return heart;
+        if ( this.outline.length < 500 )
+        {
+            this.outline.push(createVector(x, y));
+        }
+    } 
 }
 
 //////////////////////////////////////////////////////////////////////

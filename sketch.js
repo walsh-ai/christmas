@@ -102,7 +102,7 @@ function createHeartRain()
 {
     for ( let i = 0; i < numberOfFallingHearts; i++ )
     {
-        fallingHearts.push(new FallingHeart());
+        fallingHearts.push(new CFallingHeart());
     }
 }
 

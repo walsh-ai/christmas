@@ -3,26 +3,26 @@
 // Copyright Creative Commons (CC) 2023 Thomas James Walsh
 // Licensed CC Attribution 4.0; reuse permitted
 // Merry Christmas, Edward
+// I <3 you
 
 //////////////////////////////////////////////////////////////////////
 
-class FallingHeart extends Heart
+class CFallingHeart
 {
     constructor()
     {
         let seedx = floor(random(width) * 1.25);
         let seedy = floor(random(height) * 1.25);
 
-        let radius = random(1, 4);
+        let radius = random(0.5, 4);
         let pulseRadius = random(5, 10);
 
-        super(seedx, seedy, radius, pulseRadius, true);
-        
         this.setRandomVelocity();
         this.acceleration = createVector(0, 0.001);
         this.position     = createVector(seedx, seedy);
 
-        super.oneCycle();
+        this.heart = new CHeartE(seedx, seedy, radius, pulseRadius, true);
+        this.heart.computeFullOutline();
     }
 
     //////////////////////////////////////////////////////////////////////
@@ -59,6 +59,13 @@ class FallingHeart extends Heart
         let dy = Math.random() * 5 + 0.5;
 
         this.velocity = createVector(dx, dy);
+    }
+
+    //////////////////////////////////////////////////////////////////////
+
+    render()
+    {
+        this.heart.render(this.position.x, this.position.y);
     }
 }
 
