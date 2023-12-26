@@ -20,6 +20,12 @@ var numberOfBubbles = 0;
 var backgroundColour = 0;
 var numberOfFallingHearts = 100;
 
+const snowflakes = [];
+const ground = [];
+
+const minSpeed = 1;
+const maxSpeed = 5;
+
 //////////////////////////////////////////////////////////////////////
 
 function windowResized()

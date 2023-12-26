@@ -17,15 +17,15 @@ class CHeartD extends CHeartRender
         falling)
     {
         super(seedx, seedy, radius, pulseRadius, falling);
-        this.radius = this.radius * 40;
+        this.radius = this.radius * 100;
     }
 
     //////////////////////////////////////////////////////////////////////
 
     computeVertex(angle = this.angle)
     {
-        const a = this.radius * cos(angle) * (sin(angle) * Math.sqrt(Math.abs(cos(angle)))) / (sin(angle) + (7/5)) - 2 * sin(angle) + 2;
-        const b = this.radius * sin(angle) * (sin(angle) * Math.sqrt(Math.abs(cos(angle)))) / (sin(angle) + (7/5)) - 2 * sin(angle) + 2;
+        const a = this.radius * cos(angle) * (sin(angle) * Math.sqrt(Math.abs(cos(angle)))) / (sin(angle) + (7/2)) - 2 * sin(angle);
+        const b = this.radius * sin(angle) * (sin(angle) * Math.sqrt(Math.abs(cos(angle)))) / (sin(angle) + (7/2)) - 2 * sin(angle);
 
         return createVector(
             ((a * cos(PI)) - (b * sin(PI))),
@@ -64,12 +64,11 @@ class CHeartD extends CHeartRender
 
         if ( this.beat )
         {
-            this.pulse = map(cos(this.angle), 0, this.pulseRadius, 0.5, -2);
+            this.pulse = map(sin(2 * this.angle), 0, this.pulseRadius, 1, -5);
         }
 
-        if ( this.outline.length < 500 )
+        if ( this.outline.length < (TWO_PI / 0.05 / 2) )
         {
-            // this.outline.pop()
             this.outline.push(xy);
         }
     }
