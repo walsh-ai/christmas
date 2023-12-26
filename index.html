@@ -29,6 +29,14 @@
     <script src="Heart_E.js"></script>
     <script src="sketch.js"></script>
 
+    <script>
+        function hideCard()
+        {
+            var card = document.getElementById("myCard");
+            card.style.display = "none";
+        }
+    </script>
+
         <div>
             <p class = "info">Raining Hearts: </p>
 
@@ -67,11 +75,11 @@
             <button class = "info" onClick = "setBeatingHeart(EHeartType.HeartType_E);">Eq. E</button>
         </div>
 
-        <div class = "container">
+        <div class = "container" id = "myCard">
             <div class = "card">
                 <div class = "front"></div>
                 <div class = "back">
-                    <h4>Dear Edward,<br/><br/>
+                    <h3>Dear Edward,<br/><br/>
                     Please click anywhere to draw a heart, or use the buttons to change equation. Inspired by
                         the heart that you drew on my card, Equation B will outline itself in the same way, I hope you like it :) <br/><br />
                         Thank you so much for being my boyfriend, I love you. You are too good for me and too good to be true,
@@ -92,8 +100,8 @@
                         With all my heart,<br/>
                         Merry Christmas,<br/>
                         Tommy
-                    </h4>
-                    <button class = "info" onclick = "">Hide Card</button>
+                    </h3>
+                    <button class = "info" style = "margin: 0 0 0 0;" onclick = "hideCard();">Hide Card</button>
                 </div>
             </div>
         </div>
