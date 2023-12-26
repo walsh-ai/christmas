@@ -20,6 +20,7 @@
     width: 100%;
     position: relative;
     transition: transform 1500ms;
+    transform-style: preserve-3d;
 }
 
 .front,
@@ -31,7 +32,6 @@
     box-shadow: 0 0 10px 10px #ff00d080;
     position: absolute;
     backface-visibility: hidden;
-    transform-style: preserve-3d;
 }
 
 .front
@@ -44,6 +44,13 @@
 
 .back
 {
-    background-color: #3a3a3a;
+    background-color: #0000008f;
+    color: white;
+    text-align: left;
+    font-family: Georgia, 'Times New Roman', Times, serif;
     transform: rotateY(180deg);
+    display: flex;
+    flex-direction: column;
+    gap: 5rem;
+    padding: 20px;
 }
