@@ -65,6 +65,7 @@ function setup()
 
     canvas.position(0, 0);
     canvas.style('z-index', '-1');
+    canvas.style('position', 'absolute');
 
     stroke(255);
     strokeWeight(2);

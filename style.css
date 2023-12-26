@@ -5,14 +5,19 @@
     box-sizing: border-box;
 }
 
+body
+{
+    z-index: -2;
+}
+
 canvas 
 {
     display: block;
+    position: absolute;
 }
 
 .info 
 {
-    display: inline-block;
     display: inline;
     vertical-align: top;
     color: white;

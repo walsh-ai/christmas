@@ -1,0 +1,49 @@
+
+.container
+{
+    width: 30vw;
+    height: 70vh;
+    position: absolute;
+    top: 10vh;
+    left: 35vw;
+}
+
+.container:hover > .card 
+{
+    cursor: pointer;
+    transform: rotateY(180deg);
+}
+
+.card
+{
+    height: 100%;
+    width: 100%;
+    position: relative;
+    transition: transform 1500ms;
+}
+
+.front,
+.back
+{
+    height: 100%;
+    width: 100%;
+    border-radius: 2rem;
+    box-shadow: 0 0 10px 10px #ff00d080;
+    position: absolute;
+    backface-visibility: hidden;
+    transform-style: preserve-3d;
+}
+
+.front
+{
+    background-image: url(img/cardfront.jpeg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center; 
+}
+
+.back
+{
+    background-color: #3a3a3a;
+    transform: rotateY(180deg);
+}

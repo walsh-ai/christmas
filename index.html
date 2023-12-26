@@ -9,15 +9,12 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.8.0/addons/p5.sound.js"></script>
 
     <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" type="text/css" href="card.css">
 
-    <title><3</title>
-
-    <style>
-       
-  </style>
+    <title>luv u Ed</title>
 </head>
 
-<body>
+<body style = "display: inline-block;">
     <audio src="./assets/song.mp3" autoplay loop></audio>
 
     <script src="HeartType.js"></script>
@@ -32,8 +29,7 @@
     <script src="Heart_E.js"></script>
     <script src="sketch.js"></script>
 
-    <main>
-        <div>
+        <div  style = "display: inline-block;">
             <p class = "info">Raining Hearts: </p>
 
             <div class="tooltip">
@@ -70,7 +66,16 @@
             <button class = "info" onClick = "setBeatingHeart(EHeartType.HeartType_D);">Eq. D</button>
             <button class = "info" onClick = "setBeatingHeart(EHeartType.HeartType_E);">Eq. E</button>
         </div>
-    </main>
+
+        <div class = "container">
+            <div class = "card">
+                <div class = "front"></div>
+                <div class = "back">
+                    <h3>Back of card</h3>
+                    <p>Additional info on the back of the card.</p>
+                </div>
+            </div>
+        </div>
 </body>
 
 </html>
