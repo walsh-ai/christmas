@@ -5,15 +5,9 @@
     box-sizing: border-box;
 }
 
-body
-{
-    z-index: -2;
-}
-
 canvas 
 {
     display: block;
-    position: absolute;
 }
 
 .info 
@@ -21,8 +15,8 @@ canvas
     display: inline;
     vertical-align: top;
     color: white;
-    padding: 5px;
-    font-size: 14px;
+    padding: 10px;
+    font-size: 16px;
     border-radius: 0 0 10px 0;
     background-color : rgba(255, 101, 186, 0.8);
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -62,8 +56,8 @@ canvas
     /* max-width:320px;
     min-height:128px; */
     border:1px solid black;
-    margin-top:12px;
-    margin-left:32px;
+    margin-top: 35px;
+    margin-left: 55px;
     overflow:hidden;
     padding:8px;
 }
