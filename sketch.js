@@ -57,6 +57,16 @@ function getNewHeartOfWindowType(xPos, yPos, radius, pulseRadius)
 
 //////////////////////////////////////////////////////////////////////
 
+var soundFile;
+
+function preload() 
+{
+    soundFormats('ogg', 'mp3');
+    soundFile = loadSound('assets/song');
+}
+
+//////////////////////////////////////////////////////////////////////
+
 function setup()
 {
     canvas = createCanvas(windowWidth, windowHeight);
@@ -78,6 +88,9 @@ function setup()
     canvas.mouseClicked(() => {
         hearts.push(getNewHeartOfWindowType(mouseX, mouseY, random(1, 3), random(10, 15)));
     });
+
+    soundFile.setVolume(0.1);
+    soundFile.play();
 }
 
 //////////////////////////////////////////////////////////////////////
